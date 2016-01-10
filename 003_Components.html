@@ -8,7 +8,7 @@
     <div class="xp-row with-comments">
       <div class="xp-column">
         <xp-editor active="components/todo.js">
-<script id="components/list.js" type="application/octetstream">
+<script id="components/list.js" type="application/octetstream" highlight="1">
   export default {
     name: 'e1List',
     template: `<div>
@@ -31,7 +31,7 @@
     }
   };
 </script>
-<script id="components/todo.js" type="application/octetstream">
+<script id="components/todo.js" type="application/octetstream" highlight="1">
   export default {
     name: 'e1Todo',
     bindings: {
@@ -47,7 +47,7 @@
     }
   };
 </script>
-<script id="index.js" type="application/octetstream">
+<script id="index.js" type="application/octetstream" highlight="2-4,5-6">
   import {module, bootstrap} from 'angular';
   import list from './components/list.js';
   import todo from './components/todo.js';
