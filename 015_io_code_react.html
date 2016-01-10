@@ -1,7 +1,7 @@
 <html xp-run-server-url="http://xpla.org"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Validation</title>
+    <title>React Implementation</title>
     <link rel="stylesheet" href="http://xpla.org/static/css/slide.3.0.0.css">
   </head>
   <body class="xp-slide">
@@ -52,21 +52,19 @@
 
     // View
     render () {
-      return (
-        <div>
-          <h3>My Todo List</h3>
-          {this.state.todos.map((todo) => (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              isInEditMode={this.state.isInEditMode[todo.id]}
-              onChange={this.onChange.bind(this, todo.id)}
-              onOpenEditMode={this.onOpenEditMode.bind(this, todo.id)}
-              />
-          ))}
-          <pre>{JSON.stringify(this.state.todos, null, 2)}</pre>
-        </div>
-      );
+      return (<div>
+        <h3>My Todo List</h3>
+        {this.state.todos.map((todo) => (
+          <Todo
+            key={todo.id}
+            todo={todo}
+            isInEditMode={this.state.isInEditMode[todo.id]}
+            onChange={this.onChange.bind(this, todo.id)}
+            onOpenEditMode={this.onOpenEditMode.bind(this, todo.id)}
+            />
+        ))}
+        <pre>{JSON.stringify(this.state.todos, null, 2)}</pre>
+      </div>);
     }
 
     todos () {
@@ -138,37 +136,29 @@
     }
 
     renderTodo () {
-      return (
-        <h3>
-          <label>
-            <input 
-              disabled={true}
-              checked={this.props.todo.done}
-              type="checkbox" />
-            {this.props.todo.name}
-            <a href onClick={this.onOpenEditMode.bind(this)}>edit</a>
-          </label>
-        </h3>
-      );
+      return (<h3><label>
+        <input 
+          disabled={true}
+          checked={this.props.todo.done}
+          type="checkbox" />
+        {this.props.todo.name}
+        <a href onClick={this.onOpenEditMode.bind(this)}>edit</a>
+      </label></h3>);
     }
 
     renderTodoEdit () {
-      return (
-        <h3>
-          <span>
-            <input 
-              checked={this.state.isDone}
-              onChange={this.onCheckboxChange.bind(this)}
-              type="checkbox" />
-            <input 
-              value={this.state.newName}
-              onChange={this.onChange.bind(this)}
-              type="text"
-              />
-            <a href onClick={this.onDone.bind(this)}>done</a>
-          </span>
-        </h3>
-      );
+      return (<h3><span>
+        <input 
+          checked={this.state.isDone}
+          onChange={this.onCheckboxChange.bind(this)}
+          type="checkbox" />
+        <input 
+          value={this.state.newName}
+          onChange={this.onChange.bind(this)}
+          type="text"
+          />
+        <a href onClick={this.onDone.bind(this)}>done</a>
+      </span></h3>);
     }
   };
 </script>
@@ -189,7 +179,7 @@ render(<List />, document.querySelector('app'));
     <div class="xp-row comments">
       <h1>All changes to state now happens in one place.</h1>
     </div>
-    <script src="http://localhost:3010/js/slide.3.0.0.js"></script> 
+    <script src="http://xpla.org/static/js/slide.3.0.0.js"></script> 
   
 
 </body></html>
