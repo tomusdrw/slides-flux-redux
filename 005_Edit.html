@@ -1,0 +1,85 @@
+<html xp-run-server-url="http://xpla.org"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Editing Todo</title>
+    <link rel="stylesheet" href="http://xpla.org/static/css/slide.3.0.0.css">
+  </head>
+  <body class="xp-slide">
+    <div class="xp-row with-comments">
+      <div class="xp-column">
+        <xp-editor active="components/todo.js">
+<script id="components/list.js" type="application/octetstream">
+  export default {
+    name: 'e1List',
+    template: `<div>
+        <h3>My Todo List</h3>
+        <e1-todo ng-repeat="todo in e1List.todos" todo="todo"></e1-todo>
+      </div>`,
+    controller () {
+      this.todos = [{
+        done: true,
+        name: 'Buy Beer'
+      },
+      {
+        done: false,
+        name: 'Learn Flux'
+      },
+      {
+        done: false,
+        name: 'Learn Redux'
+      }]; 
+    }
+  };
+</script>
+<script id="components/todo.js" type="application/octetstream">
+  export default {
+    name: 'e1Todo',
+    bindings: {
+      todo: '='
+    },
+    template: `
+    <h3><label ng-if="!e1Todo.edit">
+        <input disabled ng-model="e1Todo.todo.done" type="checkbox" />
+        {{ e1Todo.todo.name }}
+        <a href ng-click="e1Todo.edit = !e1Todo.edit">edit</a>
+    </label>
+    <span ng-if="e1Todo.edit">
+        <input ng-model="e1Todo.todo.done" type="checkbox" />
+        <input 
+          ng-model="e1Todo.todo.name" 
+          type="text" 
+          />
+        <a href ng-click="e1Todo.edit = !e1Todo.edit">done</a>
+    </span></h3>`,
+    controller () {
+            
+    }
+  };
+</script>
+<script id="index.js" type="application/octetstream">
+  import {module, bootstrap} from 'angular';
+  import list from './components/list.js';
+  import todo from './components/todo.js';
+
+
+  const mod = module('myapp', []);
+  mod.component(list.name, list);
+  mod.component(todo.name, todo);
+
+
+  bootstrap(document, [mod.name]);
+</script>
+<script id="index.html" type="application/octetstream" src="001/index.html"></script>
+</xp-editor>
+      </div>
+      <div class="xp-column">
+        <xp-preview runner="html-babel"></xp-preview>
+      </div>
+    </div>
+    <div class="xp-row comments">
+      <h1>So now we want todos to be editable.</h1>
+    </div>
+    <script src="http://xpla.org/static/js/slide.3.0.0.js"></script> 
+  
+
+</body></html>
