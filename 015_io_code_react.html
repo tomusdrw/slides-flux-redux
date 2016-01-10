@@ -1,0 +1,195 @@
+<html xp-run-server-url="http://xpla.org"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Validation</title>
+    <link rel="stylesheet" href="http://xpla.org/static/css/slide.3.0.0.css">
+  </head>
+  <body class="xp-slide">
+    <div class="xp-row with-comments">
+      <div class="xp-column">
+        <xp-editor active="components/todo.jsx">
+<script id="components/list.jsx" type="application/octetstream">
+  import React from 'react';
+  import Todo from './todo.js';
+
+  export default class List extends React.Component {
+
+    // State
+    constructor (...args) {
+      super(...args);
+      this.state = {
+        isInEditMode: {},
+        todos: this.todos()
+      };
+    }
+
+    onOpenEditMode (id) {
+      this.setState({
+        isInEditMode: {
+          [id]: true
+        }
+      });
+    }
+
+    onChange (id, name, isDone) {
+      const idx = this.state.todos
+        .map((todo) => todo.id)
+        .indexOf(id);
+        
+      this.state.todos.splice(idx, 1, {
+        id: id,
+        done: isDone,
+        name: name
+      });
+
+      this.setState({
+        todos: this.state.todos,
+        isInEditMode: {
+          [id]: false
+        }
+      });
+    }
+
+    // View
+    render () {
+      return (
+        <div>
+          <h3>My Todo List</h3>
+          {this.state.todos.map((todo) => (
+            <Todo
+              key={todo.id}
+              todo={todo}
+              isInEditMode={this.state.isInEditMode[todo.id]}
+              onChange={this.onChange.bind(this, todo.id)}
+              onOpenEditMode={this.onOpenEditMode.bind(this, todo.id)}
+              />
+          ))}
+          <pre>{JSON.stringify(this.state.todos, null, 2)}</pre>
+        </div>
+      );
+    }
+
+    todos () {
+      return [{
+        id: 1,
+        done: true,
+        name: 'Buy Beer'
+      },
+      {
+        id: 2,
+        done: false,
+        name: 'Learn Flux'
+      },
+      {
+        id: 3,
+        done: false,
+        name: 'Learn Redux'
+      }];
+    }
+  };
+</script>
+<script id="components/todo.jsx" type="application/octetstream">
+  import React from 'react';
+
+  export default class Todo extends React.Component {
+
+    constructor (...args) {
+      super(...args);
+      this.state = {
+        newName: this.props.todo.name,
+        isDone: this.props.todo.done
+      };
+    }
+
+    componentWillReceiveProps (newProps) {
+      this.setState({
+        newName: newProps.todo.name,
+        isDone: newProps.todo.done
+      });
+    }
+
+    onOpenEditMode (ev) {
+      ev.preventDefault();
+      this.props.onOpenEditMode();
+    }
+
+    onDone (ev) {
+      ev.preventDefault();
+      this.props.onChange(this.state.newName, this.state.isDone);
+    }
+
+    onCheckboxChange () {
+      this.setState({
+        isDone: !this.state.isDone
+      });
+    }
+
+    onChange (ev) {
+      this.setState({
+        newName: ev.target.value
+      });
+    }
+    
+    render () {
+      if (this.props.isInEditMode) {
+        return this.renderTodoEdit();
+      }
+      return this.renderTodo();
+    }
+
+    renderTodo () {
+      return (
+        <h3>
+          <label>
+            <input 
+              disabled={true}
+              checked={this.props.todo.done}
+              type="checkbox" />
+            {this.props.todo.name}
+            <a href onClick={this.onOpenEditMode.bind(this)}>edit</a>
+          </label>
+        </h3>
+      );
+    }
+
+    renderTodoEdit () {
+      return (
+        <h3>
+          <span>
+            <input 
+              checked={this.state.isDone}
+              onChange={this.onCheckboxChange.bind(this)}
+              type="checkbox" />
+            <input 
+              value={this.state.newName}
+              onChange={this.onChange.bind(this)}
+              type="text"
+              />
+            <a href onClick={this.onDone.bind(this)}>done</a>
+          </span>
+        </h3>
+      );
+    }
+  };
+</script>
+<script id="index.jsx" type="application/octetstream">
+import React from 'react';
+import {render} from 'react-dom';
+import List from './components/list.js';
+
+render(<List />, document.querySelector('app'));
+</script>
+<script id="index.html" type="application/octetstream" src="015/index.html"></script>
+</xp-editor>
+      </div>
+      <div class="xp-column">
+        <xp-preview runner="html-jsx"></xp-preview>
+      </div>
+    </div>
+    <div class="xp-row comments">
+      <h1>All changes to state now happens in one place.</h1>
+    </div>
+    <script src="http://localhost:3010/js/slide.3.0.0.js"></script> 
+  
+
+</body></html>
